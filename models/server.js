@@ -16,7 +16,7 @@ class Server {
         // Middlewares
         this.middlewares();
 
-        // Rutas de mi aplicación
+        // App routes
         this.routes();
 
         // Sockets
@@ -28,7 +28,7 @@ class Server {
         // CORS
         this.app.use(cors());
 
-        // Directorio Público
+        // Public directory
         this.app.use(express.static('public'));
 
     }
@@ -47,7 +47,7 @@ class Server {
 
     listen() {
         this.server.listen(this.port, () => {
-            console.log('Servidor corriendo en puerto', this.port);
+            console.log('Server is running in port', this.port);
         });
     }
 

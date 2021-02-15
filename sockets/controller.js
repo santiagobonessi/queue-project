@@ -5,34 +5,34 @@ const ticketControl = new TicketControl();
 const socketController = (socket) => {
 
     // Cuando un cliente se conecta
-    socket.emit('ultimo-ticket', ticketControl.ultimo);
-    socket.emit('estado-actual', ticketControl.ultimosPantalla);
-    notificarPendientes(socket);
+    socket.emit('last-ticket', ticketControl.latest);
+    socket.emit('current-state', ticketControl.latestScreen);
+    notifiyPendings(socket);
 
-    socket.on('siguiente-ticket', (payload, callback) => {
-        const siguiente = ticketControl.siguiente();
-        callback(siguiente);
+    socket.on('next-ticket', (payload, callback) => {
+        const next = ticketControl.next();
+        callback(next);
 
-        notificarPendientes(socket);
+        notifiyPendings(socket);
     });
 
-    socket.on('atender-ticket', ({ escritorio }, callback) => {
-        if (!escritorio) {
+    socket.on('attend-ticket', ({ desk }, callback) => {
+        if (!desk) {
             return callback({
                 ok: false,
-                message: 'El escritorio es obligatorio.'
+                message: 'Desk is mandatory field'
             });
         }
-        const ticket = ticketControl.atenderTicket(escritorio);
+        const ticket = ticketControl.attendTicket(desk);
 
         // Notificar cambio en ultimos tickets pantalla
-        socket.broadcast.emit('estado-actual', ticketControl.ultimosPantalla);
-        notificarPendientes(socket);
+        socket.broadcast.emit('current-state', ticketControl.latestScreen);
+        notifiyPendings(socket);
 
         if (!ticket) {
             callback({
                 ok: false,
-                message: 'Ya no hay tickets pendientes'
+                message: 'There are not pending tickets'
             });
         } else {
             callback({
@@ -44,10 +44,10 @@ const socketController = (socket) => {
     });
 }
 
-function notificarPendientes(socket) {
+function notifiyPendings(socket) {
     // Notificar tickets pendientes
-    socket.emit('tickets-pendientes', ticketControl.tickets);
-    socket.broadcast.emit('tickets-pendientes', ticketControl.tickets);
+    socket.emit('pending-tickets', ticketControl.tickets);
+    socket.broadcast.emit('pending-tickets', ticketControl.tickets);
 }
 
 module.exports = {

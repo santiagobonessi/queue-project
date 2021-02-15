@@ -1,5 +1,3 @@
-# Socket Server Basico
+# Queue Software
 
-Un servidor de Websockets usando Node, Express y Socket.io
-
-Temas cubiertos en mi curso de Node de cero a experto
+A queue software to manage Tickets using  Node, Express y Socket.io
