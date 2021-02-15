@@ -2,6 +2,6 @@
 
 A queue software to manage Tickets using  Node, Express y Socket.io
 
-## npm install
+> npm install
 
-## npm start 
+> npm start 
